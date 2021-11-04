@@ -51,6 +51,22 @@ int main(void)
     GLfloat halfScreenWidth = SCREEN_WIDTH / 2;
     GLfloat halfScreenHeight = SCREEN_HEIGHT / 2;
 
+    GLfloat colour[] = {
+     255,0,0,
+     155,255,0,
+     0,255,0,
+     1,0,155,
+     1,1,8,
+     0,155,255
+    };    
+    GLfloat colour1[] = {
+     255,0,0,
+     155,255,0,
+     0,255,0,
+     1,0,155,
+     1,1,8,
+     0,155,255
+    };
    
 
     // Loop until the user closes the window
@@ -65,8 +81,9 @@ int main(void)
         glRotatef(rotationY, 0, 1, 0);
         glTranslatef(-halfScreenWidth, -halfScreenHeight, 500);
         DrawCube(halfScreenWidth, halfScreenHeight, -500, 100);
+        glColor3f(colour[1], colour[0], colour[0]);
         DrawCube(halfScreenWidth, halfScreenHeight -100, -500, 100);
-        
+        glColor3f(colour1[0], colour1[1], colour1[0]);
         glPopMatrix();
 
         // Swap front and back buffers
@@ -124,7 +141,7 @@ void DrawCube(GLfloat centerPosX, GLfloat centerPosY, GLfloat centerPosZ, GLfloa
         centerPosX + halfSideLength, centerPosY + halfSideLength, centerPosZ + halfSideLength, // top right
         centerPosX + halfSideLength, centerPosY - halfSideLength, centerPosZ + halfSideLength, // bottom right
         centerPosX - halfSideLength, centerPosY - halfSideLength, centerPosZ + halfSideLength, // bottom left
-
+        
         // back face
         centerPosX - halfSideLength, centerPosY + halfSideLength, centerPosZ - halfSideLength, // top left
         centerPosX + halfSideLength, centerPosY + halfSideLength, centerPosZ - halfSideLength, // top right
@@ -155,17 +172,15 @@ void DrawCube(GLfloat centerPosX, GLfloat centerPosY, GLfloat centerPosZ, GLfloa
         centerPosX + halfSideLength, centerPosY - halfSideLength, centerPosZ - halfSideLength, // bottom right
         centerPosX + halfSideLength, centerPosY - halfSideLength, centerPosZ + halfSideLength  // bottom left
     };
-    GLfloat colour[] = {
-       255,0,0,
-       155,255,0,
-       0,0,255
-    };
+  
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    //glColor3f( colour[0], colour[1], colour[2] );
+    //glColor3f( colour[1], colour[0], colour[0] );
+    //glColor3f( colour[0], colour[1], colour[0] );
+   // glColor3f( colour[0], colour[0], colour[1] );
     glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_COLOR_ARRAY);
+    //glEnableClientState(GL_COLOR_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glColorPointer(3, GL_FLOAT, 0, colour);
+    //glColorPointer(3, GL_FLOAT, 0, colour);
     glDrawArrays(GL_QUADS, 0, 24);
 
     glDisableClientState(GL_VERTEX_ARRAY);
