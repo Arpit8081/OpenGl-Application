@@ -3,6 +3,9 @@
 #include <iostream>
 #include <cstdlib>
 
+#include<assimp/Importer.hpp>
+#include<assimp/scene.h>
+#include<assimp/postprocess.h>
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
 
@@ -11,6 +14,14 @@ void DrawCube(GLfloat centerPosX, GLfloat centerPosY, GLfloat centerPosZ, GLfloa
 
 GLfloat rotationX = 0.0f;
 GLfloat rotationY = 0.0f;
+
+static void cusrsorPosition(GLFWwindow *windows, double xPos, double yPos);
+void cursorEnter(GLFWwindow *window, int entered);
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+
+float  camPosX, camPosY;
+float camPosZ = camPosY = camPosX = 1.0f;
+float angle = 0.0f;
 
 int main(void)
 {
@@ -25,6 +36,12 @@ int main(void)
     // Create a windowed mode window and its OpenGL context
     window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Hello World", NULL, NULL);
 
+    //Mouse
+    glfwSetCursorPosCallback(window, cusrsorPosition);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+    glfwSetMouseButtonCallback(window, mouseButtonCallback);
+
+    //Key
     glfwSetKeyCallback(window, keyCallback);
     glfwSetInputMode(window, GLFW_STICKY_KEYS, 1);
 
@@ -98,8 +115,28 @@ int main(void)
     return 0;
 }
 
+static void cusrsorPosition(GLFWwindow *window, double xPos, double yPos) {
+    std::cout << xPos << " : " << yPos;
+    const GLfloat rotationSpeed = 10;
+    if (xPos == GLFW_MOUSE_BUTTON_1) {
+        rotationX += rotationSpeed;
+    }
+}
 
-
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+    const GLfloat rotationSpeed = 10;
+    if (action == GLFW_PRESS || action == GLFW_REPEAT)
+    {
+        switch (button)
+        {
+        case GLFW_MOUSE_BUTTON_LEFT:
+            rotationX -= rotationSpeed;
+            break;
+        }
+       // rotationX -= rotationSpeed;
+    }
+}
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     //std::cout << key << std::endl;
@@ -123,8 +160,8 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         case GLFW_KEY_LEFT:
             rotationY -= rotationSpeed;
             break;
-        }
 
+        }
 
     }
 }
